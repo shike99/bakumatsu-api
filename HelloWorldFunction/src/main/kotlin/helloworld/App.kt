@@ -1,36 +1,36 @@
 package helloworld
 
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.IOException
-import java.net.URL
 import java.util.HashMap
-import java.util.stream.Collectors
 import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.RequestHandler
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import io.ktor.client.request.url
+import kotlinx.coroutines.runBlocking
 
 /**
  * Handler for requests to Lambda function.
  */
 class App : RequestHandler<Any, GatewayResponse> {
-
     override fun handleRequest(input: Any?, context: Context?): GatewayResponse {
         val headers = HashMap<String, String>()
         headers.put("Content-Type", "application/json")
         headers.put("X-Custom-Header", "application/json")
-        try {
-            val pageContents = this.getPageContents("https://checkip.amazonaws.com")
-            val output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents)
-            return GatewayResponse(output, headers, 200)
-        } catch (e: IOException) {
-            return GatewayResponse("{}", headers, 500)
+        val client = HttpClient()
+        val response = runBlocking {
+            client.get<String> {
+                url("https://api.search.nicovideo.jp/api/v2/video/contents/search")
+                parameter("q", "幕末志士")
+                parameter("targets", "lockTagsExact")
+                parameter("fields", "contentId,title,description,tags,channelId,userId,viewCounter,mylistCounter,lengthSeconds,thumbnailUrl,startTime,threadId,commentCounter,categoryTags,genre")
+                parameter("_sort", "startTime")
+                parameter("_limit", "20")
+                parameter("filters[channelId][0]", "2613458")
+                parameter("_context", "bakumatsu-api")
+            }
         }
-
-    }
-
-    @Throws(IOException::class)
-    private fun getPageContents(address: String): String {
-        val url = URL(address)
-        BufferedReader(InputStreamReader(url.openStream())).use({ br -> return br.lines().collect(Collectors.joining(System.lineSeparator())) })
+        client.close()
+        return GatewayResponse(response, headers, 200)
     }
 }
