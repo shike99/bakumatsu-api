@@ -122,6 +122,6 @@ fabric.properties
 hs_err_pid*
 
 .aws-sam
-HelloWorldFunction/.gradle
-HelloWorldFunction/gradle
-HelloWorldFunction/build
+BakumatsuFunction/.gradle
+BakumatsuFunction/gradle
+BakumatsuFunction/build

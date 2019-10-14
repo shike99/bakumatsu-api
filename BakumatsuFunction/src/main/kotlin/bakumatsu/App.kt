@@ -1,4 +1,4 @@
-package helloworld
+package bakumatsu
 
 import java.util.HashMap
 import com.amazonaws.services.lambda.runtime.Context
@@ -16,17 +16,16 @@ class App : RequestHandler<Any, GatewayResponse> {
     override fun handleRequest(input: Any?, context: Context?): GatewayResponse {
         val headers = HashMap<String, String>()
         headers.put("Content-Type", "application/json")
-        headers.put("X-Custom-Header", "application/json")
         val client = HttpClient()
         val response = runBlocking {
             client.get<String> {
                 url("https://api.search.nicovideo.jp/api/v2/video/contents/search")
                 parameter("q", "幕末志士")
                 parameter("targets", "lockTagsExact")
-                parameter("fields", "contentId,title,description,tags,channelId,userId,viewCounter,mylistCounter,lengthSeconds,thumbnailUrl,startTime,threadId,commentCounter,categoryTags,genre")
+                parameter("fields", "contentId,title,description,tags,viewCounter,mylistCounter,lengthSeconds,thumbnailUrl,startTime,commentCounter,categoryTags,genre")
+                parameter("filters[channelId][0]", "2613458")
                 parameter("_sort", "startTime")
                 parameter("_limit", "20")
-                parameter("filters[channelId][0]", "2613458")
                 parameter("_context", "bakumatsu-api")
             }
         }
