@@ -14,12 +14,17 @@ Resources:
       CodeUri: BakumatsuFunction
       Handler: bakumatsu.App::handleRequest
       Runtime: java8
-      MemorySize: 512
+      MemorySize: 2048
       Events:
-        Niconico:
+        NicoVideo:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /niconico
+            Path: /nico_video
+            Method: get
+        YouTube:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /youtube
             Method: get
 
 Outputs:
