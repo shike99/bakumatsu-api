@@ -1,7 +1,5 @@
 package bakumatsu
 
-import kotlin.properties.Delegates
-
 class GetRequest {
     lateinit var headers: Any
     lateinit var multiValueHeaders: Any

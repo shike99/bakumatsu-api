@@ -12,7 +12,7 @@ class App : RequestHandler<GetRequest, GatewayResponse> {
         val headers = mutableMapOf<String, String>()
         headers["Content-Type"] = "application/json"
 
-        return when(request.path) {
+        return when (request.path) {
             "/nico_video" -> {
                 val response = NicoVideoController().call(request)
                 GatewayResponse(response, headers, 200)

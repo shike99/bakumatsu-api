@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class VideoListDTO(
-        val data: List<VideoDTO>,
-        val meta: MetaDTO
+    val data: List<VideoDTO>,
+    val meta: MetaDTO
 )

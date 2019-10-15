@@ -1,8 +1,8 @@
 package usecases.nicovideo
 
 import entities.NicoVideo
-import entities.Pagination
 import entities.NicoVideoList
+import entities.Pagination
 import infrastructures.nicovideo.NicoVideoApi
 import infrastructures.nicovideo.VideoListDTO
 import kotlinx.serialization.json.Json
