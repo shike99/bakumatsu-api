@@ -1,0 +1,155 @@
+openapi: "3.0.0"
+info:
+  description: 幕末志士動画一覧APIドキュメント
+  version: 1.0.0
+  title: bakumatsu-api
+servers:
+  - url: https://bakumatsu-api.shivapp.xyz
+paths:
+  /nico_video:
+    get:
+      summary: ニコニコ動画のチャンネル動画一覧
+      parameters:
+        - name: page
+          in: query
+          description: ページ
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - pagination
+                  - data
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/NicoVideo'
+      x-amazon-apigateway-integration:
+        responses:
+          defalt:
+            statusCode: 200
+        uri: https://bakumatsu-api.shivapp.xyz/nico_video
+        passthroughBehavior: when_no_match
+        httpMethod: GET
+        type: mock
+
+components:
+  schemas:
+    Pagination:
+      type: object
+      required:
+        - page
+        - total
+        - prev
+        - next
+        - count
+      properties:
+        page:
+          type: integer
+          format: int64
+          example: 1
+        total:
+          type: integer
+          format: int64
+          example: 100
+        prev:
+          type: integer
+          format: int64
+          example: 1
+          nullable: true
+        next:
+          type: integer
+          format: int64
+          example: 3
+          nullable: true
+        count:
+          type: integer
+          format: int64
+          example: 20
+    NicoVideo:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - playedCount
+        - myListCount
+        - timeLengthSeconds
+        - thumbnailUrl
+        - uploadedAt
+        - commentCount
+        - categoryTags
+        - tags
+        - genre
+        - contentUrl
+      properties:
+        id:
+          type: string
+          description: コンテンツID
+          example: so12345678
+        title:
+          type: string
+          description: 動画タイトル
+          example: 幕末生　第0回（〇〇実況）
+        description:
+          type: string
+          description: 説明文
+          example: 幕末生　2019年01月01日(W)放送分\\n\\n←第N回
+        playedCount:
+          type: integer
+          format: int64
+          description: 再生回数
+          example: 10000
+        myListCount:
+          type: integer
+          format: int64
+          description: マイリスト件数
+          example: 100
+        timeLengthSeconds:
+          type: integer
+          format: int64
+          description: 動画の再生時間（秒）
+          example: 3614
+        thumbnailUrl:
+          type: string
+          description: サムネイルのURL
+          example: https://nicovideo.cdn.nimg.jp/thumbnails/35825795/35825795.17729226
+        uploadedAt:
+          type: string
+          description: 投稿日時(ISO8601)
+          example: 2019-01-01T00:00:00+09:00
+        commentCount:
+          type: integer
+          format: int64
+          description: コメント数
+          example: 100
+        categoryTags:
+          type: string
+          description: カテゴリタグ
+          example: ラジオ
+        tags:
+          type: array
+          description: タグ
+          example:
+            - 幕末志士
+            - 幕末生
+          items:
+            type: string
+        genre:
+          type: string
+          description: ジャンル
+          example: ラジオ
+        contentUrl:
+          type: string
+          description: ニコニコ動画のURL
+          example: https://nico.ms/so35825795

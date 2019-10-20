@@ -1,6 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: 幕末志士API
+Description: >
+  幕末志士 Web API template
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -26,6 +27,13 @@ Resources:
           Properties:
             Path: /youtube
             Method: get
+  BakumatsuApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: BakumatsuApi
+      StageName: Prod
+      DefinitionUri: openApi.yaml
+      OpenApiVersion: 3.0.0
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
