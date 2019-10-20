@@ -32,9 +32,11 @@ dependencies {
     compile "io.ktor:ktor-client-cio:$ktor_version"
     compile "io.ktor:ktor-client-apache:$ktor_version"
     compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.13.0"
+    compile 'org.koin:koin-core:2.0.1'
 
     testCompile 'junit:junit:4.12'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testCompile 'org.koin:koin-test:2.0.1'
 }
 
 compileKotlin {

@@ -47,6 +47,7 @@ class NicoVideoApi(private val client: HttpClient) {
                 parameter("_context", applicationName)
             }
         }
+        client.close()
         return json.parse(VideoListDTO.serializer(), response)
     }
 }

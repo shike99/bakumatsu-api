@@ -1,12 +1,15 @@
 package controllers
 
 import bakumatsu.GetRequest
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import usecases.nicovideo.FetchNicoVideoInputData
-import usecases.nicovideo.FetchNicoVideoInteractor
+import usecases.nicovideo.FetchNicoVideoUseCase
 
-class NicoVideoController {
+class NicoVideoController : KoinComponent {
     fun call(request: GetRequest): String {
-        val inputData = FetchNicoVideoInputData(request.queryStringParameters?.page?.toInt())
-        return FetchNicoVideoInteractor().execute(inputData).videoList
+        val fetchNicoVideo by inject<FetchNicoVideoUseCase>()
+        val params = FetchNicoVideoInputData(request.queryStringParameters?.page?.toInt())
+        return fetchNicoVideo.execute(params).videoList
     }
 }
